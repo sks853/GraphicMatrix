@@ -14,7 +14,7 @@
 #include <malloc.h>
 #include <iostream>
 
-void getArrayCustomMultiLengthAccess(int** matrixArray, int matrixSize, int* customLengthArray, int customLengthSize, int pointRow, int pointLine, int* acceptLengthArray)
+void getArrayCustomMultiLength(int** matrixArray, int matrixSize, int* customLengthArray, int customLengthSize, int pointRow, int pointLine, int* acceptLengthArray)
 {
     int* resultMultiLengthArray = (int*)malloc(customLengthSize * sizeof(int));
     
@@ -68,18 +68,8 @@ void getArrayCustomMultiLengthAccess(int** matrixArray, int matrixSize, int* cus
 }
 
 
-void getArrayCustomMultiLengthLoop(int** matrixArray, int matrixSize, int* customLengthArray, int customLengthSize, int pointLoop, int* acceptLengthArray)
-{
-    int* resultMultiLengthArray = (int*)malloc(customLengthSize * sizeof(int));
-    int* temporLengthArray = (int*)malloc(matrixSize * sizeof(int));
-
-    // TODO: 在此处添加实现代码.
-    free(temporLengthArray);
-    free(resultMultiLengthArray);
-}
-
 /************************************* 待验证 ****************************************/
-int getCountPointRangeLengthAccess(int** matrixArray, int matrixSize, int maxLength, int pointRow, int pointLine)
+int getCountPointRangeLength(int** matrixArray, int matrixSize, int maxLength, int pointRow, int pointLine)
 {
     int sumRangeLengthArray = 0;
     
@@ -116,46 +106,8 @@ int getCountPointRangeLengthAccess(int** matrixArray, int matrixSize, int maxLen
     return sumRangeLengthArray;
 }
 
-/************************************* 待验证 ****************************************/
-int getCountPointRangeLengthLoop(int** matrixArray, int matrixSize, int maxLength, int pointLoop)
-{
-    int sumRangeLengthArray = 0;
-    
-    // 动态分配初始化
-    int** calculateTemporMatrixArray = (int**)malloc(matrixSize * sizeof(int*));
-    for (int i = 0; i < matrixSize; i++)
-    {
-        calculateTemporMatrixArray[i] = (int*)malloc(matrixSize * sizeof(int));
-    }
 
-    // 赋值初始化
-    for (int i = 0; i < matrixSize; i++)
-    {
-        for (int j = 0; j < matrixSize; j++)
-        {
-            calculateTemporMatrixArray[i][j] = matrixArray[i][j];
-        }
-    }
-
-    // 进行求和
-    for (int i = 1; i < maxLength; i++)
-    {
-        multiplicineMatrixCalculate(matrixArray, calculateTemporMatrixArray, matrixSize, calculateTemporMatrixArray);
-        sumRangeLengthArray = sumRangeLengthArray + calculateTemporMatrixArray[pointLoop - 1][pointLoop - 1];
-    }
-
-    // Free
-    for (int i = 0; i < matrixSize; i++)
-    {
-        free(calculateTemporMatrixArray[i]);
-    }
-    free(calculateTemporMatrixArray);
-
-    return sumRangeLengthArray;
-}
-
-
-int getAllPointRangeLengthAccess(int** matrixArray, int matrixSize, int maxLength, int pointRow, int pointLine)
+int getAllPointRangeLength_HaveLoop(int** matrixArray, int matrixSize, int maxLength, int pointRow, int pointLine)
 {
     int sumRangeLengthArray = 0;
     // TODO: 在此处添加实现代码.
@@ -163,15 +115,7 @@ int getAllPointRangeLengthAccess(int** matrixArray, int matrixSize, int maxLengt
 }
 
 
-int getAllPointRangeLengthAccessNotLoop(int** matrixArray, int matrixSize, int maxLength, int pointRowAny, int pointLineAny)
-{
-    int sumRangeLengthArray = 0;
-    // TODO: 在此处添加实现代码.
-    return sumRangeLengthArray;
-}
-
-
-int getAllPointRangeLengthLoop(int** matrixArray, int matrixSize, int maxLength, int pointLoop)
+int getAllPointRangeLength_NotLoop(int** matrixArray, int matrixSize, int maxLength, int pointRowAny, int pointLineAny)
 {
     int sumRangeLengthArray = 0;
     // TODO: 在此处添加实现代码.

@@ -13,102 +13,84 @@
 #pragma once
 
 /*
-* @description 
-* @param **matrixArray 
-* @param matrixSize 
-* @param *customLengthArray 
-* @param getLenArraySize 
-* @param pointRow 
-* @param pointLine 
-* @param *acceptLengthArray 
+* @description 计算自定义距离长度下矩阵的自定义点通路或回路个数，当且仅当pointRow == pointLine
+* @param **matrixArray 初始矩阵指针
+* @param matrixSize 矩阵尺度
+* @param *customLengthArray 自定义长度数组
+* @param getLenArraySize 自定义长度尺度
+* @param pointRow 自定义点横坐标
+* @param pointLine 自定义点的纵坐标
+* @param *acceptLengthArray 自定义长度的自定义点通路或回路个数、调用方接收结果数组的指针
 */
-void getArrayCustomMultiLengthAccess(int** matrixArray, int matrixSize, int* customLengthArray, int customLengthSize, int pointRow, int pointLine, int* acceptLengthArray);
+void getArrayCustomMultiLength(int** matrixArray, int matrixSize, int* customLengthArray, int customLengthSize, int pointRow, int pointLine, int* acceptLengthArray);
+
+
 
 /*
-* @description 
-* @param **matrixArray 
-* @param matrixSize 
-* @param *customLengthArray 
-* @param getLenArraySize 
-* @param pointLoop 
-* @param *acceptLengthArray 
+* @description 统计某范围长度内自定义点的通路或回路之和，当且仅当pointRow == pointLine
+* @param **matrixArray 初始矩阵指针
+* @param matrixSize 矩阵尺度
+* @param maxLength 最大距离长度
+* @param pointRow 自定义点的横坐标
+* @param pointLine 自定义点的纵坐标
+* @return sumRangeLengthArray 某范围长度内自定义点的通路或回路之和
 */
-void getArrayCustomMultiLengthLoop(int** matrixArray, int matrixSize, int* customLengthArray, int customLengthSize, int pointLoop, int* acceptLengthArray);
+int getCountPointRangeLength(int** matrixArray, int matrixSize, int maxLength, int pointRow, int pointLine);
+
+
 
 /*
-* @description 
-* @param **matrixArray 
-* @param matrixSize 
-* @param maxLength 
-* @param pointRow 
-* @param pointLine 
-* @return sumRangeLengthArray 
+* @description 求某长度内所有点即通路和回路之和
+* @param **matrixArray 调用方矩阵指针
+* @param matrixSize 矩阵尺度
+* @param maxLength 最大距离长度
+* @param pointRowAny 任意点横坐标
+* @param pointLineAny 任意点纵坐标
+* @return sumRangeLengthArray 某长度内所有点即通路和回路之和
 */
-int getCountPointRangeLengthAccess(int** matrixArray, int matrixSize, int maxLength, int pointRow, int pointLine);
+int getAllPointRangeLength_HaveLoop(int** matrixArray, int matrixSize, int maxLength, int pointRowAny, int pointLineAny);
+
+
 
 /*
-* @description 
-* @param **matrixArray 
-* @param matrixSize 
-* @param maxLength 
-* @param pointLoop 
-* @return sumRangeLengthArray 
+* @description 求某长度内所有通路之和（不包括回路）
+* @param **matrixArray 调用方矩阵指针
+* @param matrixSize 矩阵尺度
+* @param maxLength 最大距离长度
+* @param pointRowAny 任意点横坐标
+* @param pointLineAny 任意点纵坐标
+* @return sumRangeLengthArray 某长度内所有通路之和（不包括回路）
 */
-int getCountPointRangeLengthLoop(int** matrixArray, int matrixSize, int maxLength, int pointLoop);
+int getAllPointRangeLength_NotLoop(int** matrixArray, int matrixSize, int maxLength, int pointRowAny, int pointLineAny);
+
+
 
 /*
-* @description 
-* @param **matrixArray 
-* @param matrixSize 
-* @param maxLength 
-* @param pointRowAny 
-* @param pointLineAny 
-* @return sumRangeLengthArray 
-*/
-int getAllPointRangeLengthAccess(int** matrixArray, int matrixSize, int maxLength, int pointRowAny, int pointLineAny);
-
-/*
-* @description 
-* @param **matrixArray 
-* @param matrixSize 
-* @param maxLength 
-* @param pointRowAny 
-* @param pointLineAny 
-* @return sumRangeLengthArray 
-*/
-int getAllPointRangeLengthAccessNotLoop(int** matrixArray, int matrixSize, int maxLength, int pointRowAny, int pointLineAny);
-
-/*
-* @description 
-* @param **matrixArray 
-* @param matrixSize 
-* @param maxLength 
-* @param pointLoopAny 
-* @return sumRangeLengthArray 
-*/
-int getAllPointRangeLengthLoop(int** matrixArray, int matrixSize, int maxLength, int pointLoopAny);
-
-/*
-* @description 
-* @param matrixSize 
+* @description 初始化矩阵
+* @param matrixArray 初始矩阵，调用方指针、接收结果矩阵的调用方指针
+* @param matrixSize 矩阵尺度
 */
 void setMatrixArray(int** matrixArray, int matrixSize);
 
+
+
 /*
-* @description 
-* @param **matrixArray 
-* @param **aheadMatrixArray 
-* @param **afterMatrixArray 
-* @param matrixSize 
-* @param **acceptCalculateMatrix 
+* @description 矩阵乘积计算
+* @param **matrixArray 调用方矩阵
+* @param **aheadMatrixArray 前矩阵
+* @param **afterMatrixArray 后矩阵
+* @param matrixSize 矩阵尺度
+* @param **acceptCalculateMatrix 接收矩阵的调用方指针
 */
 void multiplicineMatrixCalculate(int** aheadMatrixArray, int** afterMatrixArray, int matrixSize, int** acceptCalculateMatrix);
 
+
+
 /*
-* @description 
-* @param **matrixArray 
-* @param matrixSize 
-* @param setLength 
+* @description 计算某个距离长度的矩阵
+* @param **matrixArray 初始矩阵、接收矩阵的调用方指针
+* @param matrixSize 矩阵尺度
+* @param setLength 距离长度
 */
 void multiplicineMatrixResult(int** matrixArray, int matrixSize, int setLength);
 
