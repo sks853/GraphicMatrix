@@ -13,6 +13,18 @@
 #pragma once
 
 /*
+* @description 求某个点某长度的值（即通路或回路数）
+* @param **matrixArray 初始矩阵指针
+* @param matrixSize 矩阵尺度
+* @param setLength 自定义长度
+* @param pointRow 自定义点横坐标
+* @param pointLine 自定义点的纵坐标
+* @param pointValue 某个点某长度的值（即通路或回路数）
+*/
+int getPointSetLength(int** matrixArray, int matrixSize, int setLength, int pointRow, int pointLine);
+
+
+/*
 * @description 计算自定义距离长度下矩阵的自定义点通路或回路个数，当且仅当pointRow == pointLine
 * @param **matrixArray 初始矩阵指针
 * @param matrixSize 矩阵尺度
@@ -20,9 +32,9 @@
 * @param getLenArraySize 自定义长度尺度
 * @param pointRow 自定义点横坐标
 * @param pointLine 自定义点的纵坐标
-* @param *acceptLengthArray 自定义长度的自定义点通路或回路个数、调用方接收结果数组的指针
+* @param *acceptResultArray 自定义长度的自定义点通路或回路个数、调用方接收结果数组的指针
 */
-void getArrayCustomMultiLength(int** matrixArray, int matrixSize, int* customLengthArray, int customLengthSize, int pointRow, int pointLine, int* acceptLengthArray);
+void getArrayCustomMultiLength(int** matrixArray, int matrixSize, int* customLengthArray, int customLengthSize, int pointRow, int pointLine, int* acceptResultArray);
 
 
 
@@ -94,7 +106,7 @@ void multiplicineMatrixCalculate(int** aheadMatrixArray, int** afterMatrixArray,
 
 
 /*
-* @description 计算某个距离长度的矩阵
+* @description 计算某个距离长度的矩阵（注意该方法会直接修改传入的矩阵）
 * @param **matrixArray 初始矩阵、接收矩阵的调用方指针
 * @param matrixSize 矩阵尺度
 * @param setLength 距离长度
