@@ -18,9 +18,15 @@
     <ClCompile Include="StartMain.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="CalculateGraphicMatrix.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="StartMain.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="CalculateGraphicMatrix.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

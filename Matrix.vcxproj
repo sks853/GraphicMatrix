@@ -138,9 +138,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CalculateGraphicMatrix.cpp" />
     <ClCompile Include="StartMain.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CalculateGraphicMatrix.h" />
     <ClInclude Include="StartMain.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

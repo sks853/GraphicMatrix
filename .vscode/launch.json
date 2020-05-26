@@ -1,0 +1,11 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "cppdbg",
+            "name": "Matrix",
+            "request": "attach",
+            "projectID": "fbff1d98-8108-480d-ac31-68070998d458"
+        }
+    ]
+}

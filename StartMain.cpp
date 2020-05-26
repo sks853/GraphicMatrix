@@ -1,8 +1,20 @@
+ï»¿/**************************************************************************
+//
+// Copyright:THDMI
+//
+// Author: HDM
+//
+// Date:2020-05-24
+//
+// Description:Calculate the Graphic according with Matrix and Length
+//
+**************************************************************************/
+
 #include "StartMain.h"
 #include <malloc.h>
 #include <iostream>
 
-struct PointArrayAddress
+struct PointArrayAddressMatrix
 {
 	int** matrixArray;
 	int** address;
@@ -15,24 +27,23 @@ struct ArrayAndArray
 	int* resultCountRoadArray;
 };
 
-int** inputMatrixArray(int order);
-int** mulResultMatrix(int** temporMatrixArray, int order, int length);
-int** mulCalculateMatrix(int** aheadMatrix, int** afterMatrix, int order);
-int countRangePointToPointAccessMatrix(int** matrixArray, int order, int length, int accessRow, int accessLine);
-int countRangePointToPointLoopMatrix(int** matrixArray, int order, int length, int loopRowLine);
-int* countSinglePointAccessMatrix(int** matrixArray, int order, int* getLengthArray, int getLenArraySize, int accessRow, int accessLine);
-int* countSinglePointLoopMatrix(int** matrixArray, int order, int* length, int loopRowLine);
-int getCountPointAccess(int** matrix);
-int getCountPointLoop(int** matrix);
+int** inputMatrix(int order);
+int** matrixResultMUL(int** temporMatrixArray, int order, int length);
+int** matrixCalculateMUL(int** aheadMatrix, int** afterMatrix, int order);
+int countRangeLengthAccess(int** matrixArray, int order, int length, int accessRow, int accessLine);
+int countRangeLengthLoop(int** matrixArray, int order, int length, int loopRowLine);
+int* getMultiLengthAccess(int** matrixArray, int order, int* getLengthArray, int getLenArraySize, int accessRow, int accessLine);
+int* getMultiLengthLoop(int** matrixArray, int order, int* length, int loopRowLine);
+
 
 /*
-* @description ³õÊ¼»¯Â¼Èë¾ØÕó
-* @param order ½×Êı
-* @return **funMatrixArray ¶şÎ¬Êı×éÖ¸Õë
+* @description åˆå§‹åŒ–å½•å…¥çŸ©é˜µ
+* @param order é˜¶æ•°
+* @return **funMatrixArray äºŒç»´æ•°ç»„æŒ‡é’ˆ
 */
-int** inputMatrixArray(int order)
+int** inputMatrix(int order)
 {
-	// ¶¯Ì¬·ÖÅä¶şÎ¬Êı×é
+	// åŠ¨æ€åˆ†é…äºŒç»´æ•°ç»„
 	int** initialMatrixArray = (int**)malloc(order * sizeof(int*));
 
 	for (int i = 0; i < order; i++)
@@ -40,7 +51,7 @@ int** inputMatrixArray(int order)
 		initialMatrixArray[i] = (int*)malloc(order * sizeof(int));
 	}
 
-	// ´æ·ÅÊı×éÄÚÈİ
+	// å­˜æ”¾æ•°ç»„å†…å®¹
 	std::cout << "Please input matrix: (Space off) " << std::endl;
 	for (int i = 0; i < order; i++)
 	{
@@ -53,15 +64,15 @@ int** inputMatrixArray(int order)
 }
 
 /*
-* @description ¸ù¾İ³¤¶ÈÅĞ¶Ï¾ØÕóĞèÒªÀÛ³Ë¶àÉÙ´Î²¢·µ»ØÀÛ³Ë½á¹û
-* @param **temporMatrixArray Ö¸ÕëÊı×é
-* @param order ½×Êı
-* @param length Á½µã³¤¶È£¬Ä¬ÈÏ0´Î
-* @return **calculatedMatrix ÀÛ³Ëºó×îÖÕ½á¹û
+* @description æ ¹æ®é•¿åº¦åˆ¤æ–­çŸ©é˜µéœ€è¦ç´¯ä¹˜å¤šå°‘æ¬¡å¹¶è¿”å›ç´¯ä¹˜ç»“æœ
+* @param **temporMatrixArray æŒ‡é’ˆæ•°ç»„
+* @param order é˜¶æ•°
+* @param length ä¸¤ç‚¹é•¿åº¦ï¼Œé»˜è®¤0æ¬¡
+* @return **calculatedMatrix ç´¯ä¹˜åæœ€ç»ˆç»“æœ
 */
-int** mulResultMatrix(int** temporMatrixArray, int order, int length)
+int** matrixResultMUL(int** temporMatrixArray, int order, int length)
 {
-	// ³õÊ¼»¯¶¯Ì¬·ÖÅäÊı×é
+	// åˆå§‹åŒ–åŠ¨æ€åˆ†é…æ•°ç»„
 	int** originalMatrix = (int**)malloc(order * sizeof(int*));
 	int** calculatedMatrix = (int**)malloc(order * sizeof(int*));
 
@@ -71,7 +82,7 @@ int** mulResultMatrix(int** temporMatrixArray, int order, int length)
 		calculatedMatrix[i] = (int*)malloc(order * sizeof(int));
 	}
 
-	// ¸³Óèµ÷ÓÃ·½´«ÈëµÄ²ÎÊıÖµ
+	// èµ‹äºˆè°ƒç”¨æ–¹ä¼ å…¥çš„å‚æ•°å€¼
 	for (int i = 0; i < order; i++)
 	{
 		for (int j = 0; j < order; j++)
@@ -81,10 +92,10 @@ int** mulResultMatrix(int** temporMatrixArray, int order, int length)
 		}
 	}
 
-	// ¸ù¾İ³¤¶È²»¶Ï»Øµ÷¼ÆËã×îÖÕ½×³Ë¾ØÕó
+	// æ ¹æ®é•¿åº¦ä¸æ–­å›è°ƒè®¡ç®—æœ€ç»ˆé˜¶ä¹˜çŸ©é˜µ
 	for (int i = 0; i < length - 1; i++)
 	{
-		calculatedMatrix = mulCalculateMatrix(originalMatrix, calculatedMatrix, order);
+		calculatedMatrix = matrixCalculateMUL(originalMatrix, calculatedMatrix, order);
 	}
 
 	free(originalMatrix);
@@ -93,12 +104,12 @@ int** mulResultMatrix(int** temporMatrixArray, int order, int length)
 }
 
 /*
-* @description ¾ØÕóÀÛ³Ë¼ÆËã
-* @param **temporMatrixArray Ö¸ÕëÊı×é
-* @param order ½×Êı
-* @return **calculateMatrix ÀÛ³ËÁÙÊ±½á¹û
+* @description çŸ©é˜µç´¯ä¹˜è®¡ç®—
+* @param **temporMatrixArray æŒ‡é’ˆæ•°ç»„
+* @param order é˜¶æ•°
+* @return **calculateMatrix ç´¯ä¹˜ä¸´æ—¶ç»“æœ
 */
-int** mulCalculateMatrix(int** aheadMatrix, int** afterMatrix, int order)
+int** matrixCalculateMUL(int** aheadMatrix, int** afterMatrix, int order)
 {
 	int orderSum = 0;
 	int** calculateTemporMatrix = (int**)malloc(order * sizeof(int*));
@@ -123,19 +134,19 @@ int** mulCalculateMatrix(int** aheadMatrix, int** afterMatrix, int order)
 }
 
 /*
-* @description Çólength³¤¶ÈÄÚµÄÍ¨Â·¸öÊıÖ®ºÍ
-* @param **matrixArray ¾ØÕó
-* @param order ½×Êı
-* @param length ¾àÀë³¤¶È
-* @param accessRow Ä³µãËùÔÚĞĞ
-* @param accessLine Ä³µãËùÔÚÁĞ
-* @return countRangeAccessSum length·¶Î§ÄÚµÄÄ³µãµ½ÁíµãÍ¨Â·Ö®ºÍ
+* @description æ±‚lengthé•¿åº¦å†…çš„é€šè·¯ä¸ªæ•°ä¹‹å’Œ
+* @param **matrixArray çŸ©é˜µ
+* @param order é˜¶æ•°
+* @param length è·ç¦»é•¿åº¦
+* @param accessRow æŸç‚¹æ‰€åœ¨è¡Œ
+* @param accessLine æŸç‚¹æ‰€åœ¨åˆ—
+* @return countRangeAccessSum lengthèŒƒå›´å†…çš„æŸç‚¹åˆ°å¦ç‚¹é€šè·¯ä¹‹å’Œ
 */
-int countRangePointToPointAccessMatrix(int** matrixArray, int order, int length, int accessRow, int accessLine)
+int countRangeLengthAccess(int** matrixArray, int order, int length, int accessRow, int accessLine)
 {
 	int countRangeAccessSum = 0;
 
-	// ³õÊ¼»¯¶¯Ì¬·ÖÅäÊı×é
+	// åˆå§‹åŒ–åŠ¨æ€åˆ†é…æ•°ç»„
 	int** originalMatrix = (int**)malloc(order * sizeof(int*));
 	int** calculatedMatrix = (int**)malloc(order * sizeof(int*));
 
@@ -145,7 +156,7 @@ int countRangePointToPointAccessMatrix(int** matrixArray, int order, int length,
 		calculatedMatrix[i] = (int*)malloc(order * sizeof(int));
 	}
 
-	// ¸³Óèµ÷ÓÃ·½´«ÈëµÄ²ÎÊıÖµ
+	// èµ‹äºˆè°ƒç”¨æ–¹ä¼ å…¥çš„å‚æ•°å€¼
 	for (int i = 0; i < order; i++)
 	{
 		for (int j = 0; j < order; j++)
@@ -155,10 +166,10 @@ int countRangePointToPointAccessMatrix(int** matrixArray, int order, int length,
 		}
 	}
 
-	// ¸ù¾İÍ¨Â·³¤¶È²»¶Ï»Øµ÷¼ÆËã×îÖÕ½×³Ë¾ØÕó
+	// æ ¹æ®é€šè·¯é•¿åº¦ä¸æ–­å›è°ƒè®¡ç®—æœ€ç»ˆé˜¶ä¹˜çŸ©é˜µ
 	for (int i = 0; i < length - 1; i++)
 	{
-		calculatedMatrix = mulCalculateMatrix(originalMatrix, calculatedMatrix, order);
+		calculatedMatrix = matrixCalculateMUL(originalMatrix, calculatedMatrix, order);
 		std::cout << "\n===================\n" << std::endl;
 		// ------------------------------------------ Test Out ---------------------------------------------
 		for (int m = 0; m < length; m++)
@@ -182,18 +193,18 @@ int countRangePointToPointAccessMatrix(int** matrixArray, int order, int length,
 }
 
 /*
-* @description Çólength³¤¶ÈÄÚµÄ»ØÂ·¸öÊıÖ®ºÍ
-* @param **matrixArray ¾ØÕó
-* @param order ½×Êı
-* @param length ¾àÀë³¤¶È
-* @param loopRowLine Ä³µã×ø±ê
-* @return countRangeAccessSum length·¶Î§ÄÚµÄÄ³µã×ÔÉí»ØÂ·Ö®ºÍ
+* @description æ±‚lengthé•¿åº¦å†…çš„å›è·¯ä¸ªæ•°ä¹‹å’Œ
+* @param **matrixArray çŸ©é˜µ
+* @param order é˜¶æ•°
+* @param length è·ç¦»é•¿åº¦
+* @param loopRowLine æŸç‚¹åæ ‡
+* @return countRangeAccessSum lengthèŒƒå›´å†…çš„æŸç‚¹è‡ªèº«å›è·¯ä¹‹å’Œ
 */
-int countRangePointToPointLoopMatrix(int** matrixArray, int order, int length, int loopRowLine)
+int countRangeLengthLoop(int** matrixArray, int order, int length, int loopRowLine)
 {
 	int countRangeLoopSum = 0;
 
-	// ³õÊ¼»¯¶¯Ì¬·ÖÅäÊı×é
+	// åˆå§‹åŒ–åŠ¨æ€åˆ†é…æ•°ç»„
 	int** originalMatrix = (int**)malloc(order * sizeof(int*));
 	int** calculatedMatrix = (int**)malloc(order * sizeof(int*));
 
@@ -203,7 +214,7 @@ int countRangePointToPointLoopMatrix(int** matrixArray, int order, int length, i
 		calculatedMatrix[i] = (int*)malloc(order * sizeof(int));
 	}
 
-	// ¸³Óèµ÷ÓÃ·½´«ÈëµÄ²ÎÊıÖµ
+	// èµ‹äºˆè°ƒç”¨æ–¹ä¼ å…¥çš„å‚æ•°å€¼
 	for (int i = 0; i < order; i++)
 	{
 		for (int j = 0; j < order; j++)
@@ -213,10 +224,10 @@ int countRangePointToPointLoopMatrix(int** matrixArray, int order, int length, i
 		}
 	}
 
-	// ¸ù¾İ»ØÂ·³¤¶È²»¶Ï»Øµ÷¼ÆËã×îÖÕ½×³Ë¾ØÕó
+	// æ ¹æ®å›è·¯é•¿åº¦ä¸æ–­å›è°ƒè®¡ç®—æœ€ç»ˆé˜¶ä¹˜çŸ©é˜µ
 	for (int i = 0; i < length - 1; i++)
 	{
-		calculatedMatrix = mulCalculateMatrix(originalMatrix, calculatedMatrix, order);
+		calculatedMatrix = matrixCalculateMUL(originalMatrix, calculatedMatrix, order);
 		countRangeLoopSum = countRangeLoopSum + calculatedMatrix[loopRowLine - 1][loopRowLine - 1];
 	}
 
@@ -229,18 +240,18 @@ int countRangePointToPointLoopMatrix(int** matrixArray, int order, int length, i
 }
 
 /*
-* @description Çó¶à¸ö¾àÀë³¤¶ÈµÄ¾ØÕóµÄÄ³¸öµãµÄÍ¨Â·
-* @param **matrixArray ¾ØÕó
-* @param order ½×Êı
-* @param *getLengthArray ËùÇó¾àÀëµÄÊı×é
-* @param getLenArraySize ËùÇó¾àÀëµÄÊı×éµÄ´óĞ¡
-* @param accessRow Ä³µã×ø±êµÄºá×ø±ê
-* @param accessLine Ä³µã×ø±êµÄ×İ×ø±ê
-* @return *countSinglePointAccessArray °üº¬ËùÇó¾àÀëµÄÍ¨Â·¸öÊıµÄÊı×é
+* @description æ±‚å¤šä¸ªè·ç¦»é•¿åº¦çš„çŸ©é˜µçš„æŸä¸ªç‚¹çš„é€šè·¯
+* @param **matrixArray çŸ©é˜µ
+* @param order é˜¶æ•°
+* @param *getLengthArray æ‰€æ±‚è·ç¦»çš„æ•°ç»„
+* @param getLenArraySize æ‰€æ±‚è·ç¦»çš„æ•°ç»„çš„å¤§å°
+* @param accessRow æŸç‚¹åæ ‡çš„æ¨ªåæ ‡
+* @param accessLine æŸç‚¹åæ ‡çš„çºµåæ ‡
+* @return *countSinglePointAccessArray åŒ…å«æ‰€æ±‚è·ç¦»çš„é€šè·¯ä¸ªæ•°çš„æ•°ç»„
 */
-int* countSinglePointAccessMatrix(int** matrixArray, int order, int* getLengthArray, int getLenArraySize, int accessRow, int accessLine)
+int* getMultiLengthAccess(int** matrixArray, int order, int* getLengthArray, int getLenArraySize, int accessRow, int accessLine)
 {
-	// ³õÊ¼»¯¶¯Ì¬·ÖÅäÊı×é
+	// åˆå§‹åŒ–åŠ¨æ€åˆ†é…æ•°ç»„
 	int** originalMatrix = (int**)malloc(order * sizeof(int*));
 	int** calculatedMatrix = (int**)malloc(order * sizeof(int*));
 
@@ -250,7 +261,7 @@ int* countSinglePointAccessMatrix(int** matrixArray, int order, int* getLengthAr
 		calculatedMatrix[i] = (int*)malloc(order * sizeof(int));
 	}
 
-	// ¸³Óèµ÷ÓÃ·½´«ÈëµÄ²ÎÊıÖµ
+	// èµ‹äºˆè°ƒç”¨æ–¹ä¼ å…¥çš„å‚æ•°å€¼
 	for (int i = 0; i < order; i++)
 	{
 		for (int j = 0; j < order; j++)
@@ -260,39 +271,25 @@ int* countSinglePointAccessMatrix(int** matrixArray, int order, int* getLengthAr
 		}
 	}
 
-	// ËùÇóÃ¿¸ö³¤¶ÈµÄÍ¨Â·¸öÊı¼¯ºÏ
+	// æ‰€æ±‚æ¯ä¸ªé•¿åº¦çš„é€šè·¯ä¸ªæ•°é›†åˆ
 	int* countSinglePointAccessArray = (int*)malloc(order * sizeof(int));
 	for (int i = 0; i < order; i++)
 	{
 		countSinglePointAccessArray[i] = 0;
 	}
 
-	// ½«ËùÓĞ¿ÉÄÜµÄ³¤¶È¶¼Çó³öÀ´£¬È»ºóÃ¿¸ö³¤¶ÈµÄµãµÄÖµ¶¼È¡³öÀ´·Åµ½countSinglePointAccessArray[]
+	// å°†æ‰€æœ‰å¯èƒ½çš„é•¿åº¦éƒ½æ±‚å‡ºæ¥ï¼Œç„¶åæ¯ä¸ªé•¿åº¦çš„ç‚¹çš„å€¼éƒ½å–å‡ºæ¥æ”¾åˆ°countSinglePointAccessArray[]
 	for (int i = 0; i < order; i++)
 	{
-		calculatedMatrix = mulCalculateMatrix(originalMatrix, calculatedMatrix, order);
+		calculatedMatrix = matrixCalculateMUL(originalMatrix, calculatedMatrix, order);
 		countSinglePointAccessArray[i] = calculatedMatrix[accessRow][accessLine];
 	}
 
-	// ¸ù¾İgetLengthArray[i]ÀïµÄÖµ£¬È¡³öcountSinglePointAccessArray[getLengthArray[i]]µÄÖµ²¢´«µİ¸øgetLengthArray
+	// æ ¹æ®getLengthArray[i]é‡Œçš„å€¼ï¼Œå–å‡ºcountSinglePointAccessArray[getLengthArray[i]]çš„å€¼å¹¶ä¼ é€’ç»™getLengthArray
 	for (int i = 0; i < getLenArraySize; i++)
 	{
 		getLengthArray[i] = countSinglePointAccessArray[getLengthArray[i] - 1];
 	}
-
-	// ¸ù¾İÍ¨Â·³¤¶È²»¶Ï»Øµ÷¼ÆËã×îÖÕ½×³Ë¾ØÕó
-	/*for (int i = 0; i < order; i++)
-	{
-		calculatedMatrix = mulCalculateMatrix(originalMatrix, calculatedMatrix, order);
-		for (int j = 0; j < getLenArraySize; j++)
-		{
-			if (i == getLengthArray[j])
-			{
-				countSinglePointAccessArray[i] = calculatedMatrix[accessRow - 1][accessLine - 1];
-			}
-		}
-
-	}*/
 
 	free(originalMatrix);
 	originalMatrix = 0;
@@ -303,51 +300,21 @@ int* countSinglePointAccessMatrix(int** matrixArray, int order, int* getLengthAr
 }
 
 
-int* countSinglePointLoopMatrix(int** matrixArray, int order, int* length, int loopRowLine)
+int* getMultiLengthLoop(int** matrixArray, int order, int* length, int loopRowLine)
 {
 	std::cout << std::endl;
 	return 0;
 }
 
-/*
-* @description Çó¾ØÕóÄ³Á½µãµÄÍ¨Â·¸öÊı
-* @param **matrix ¾ØÕóÖ¸ÕëÊı×é
-* @return matrix Ä³Á½µãµÄÍ¨Â·¸öÊı
-*/
-int getCountPointAccess(int** matrix)
-{
-	int accessRow = 0;
-	int accessLine = 0;
-	std::cout << "Please input row of matrix: ";
-	std::cin >> accessRow;
-	std::cout << "Please input line of matrix: ";
-	std::cin >> accessLine;
-	std::cout << "The" << accessRow << " to " << accessLine << " is : " << matrix[accessRow - 1][accessLine - 1] << std::endl;
-	return matrix[accessRow - 1][accessLine - 1];
-}
 
-/*
-* @description Çó¾ØÕóÄ³µãµÄ»ØÂ·¸öÊı
-* @param **matrix ¾ØÕóÖ¸ÕëÊı×é
-* @return matrix Ä³µãµÄ»ØÂ·¸öÊı
-*/
-int getCountPointLoop(int** matrix)
-{
-	int loop = 0;
-	std::cout << "Please input length of matrix: ";
-	std::cin >> loop;
-	std::cout << "The road of loop have " << matrix[loop - 1][loop - 1] << std::endl;
-	return matrix[loop - 1][loop - 1];
-}
-
-int main(int argc, char** argv[], char** env[])
+int mains(int argc, char** argv[], char** env[])
 {
 	/*
-	* order ½×Êı
-	* length ¾àÀë/³¤¶È
-	* pointRow ´ú±íÍ¨Â·¸öÊıµÄµãËùÔÚ¾ØÕóµÄºá×ø±ê
-	* pointLine ´ú±íÍ¨Â·¸öÊıµÄµãËùÔÚ¾ØÕóµÄ×İ×ø±ê
-	* pointLoop ´ú±íÍ¨Â·¸öÊıµÄµãËùÔÚ¾ØÕóµÄºá×ø±êµÈÓÚ×İ×ø±ê
+	* order é˜¶æ•°
+	* length è·ç¦»/é•¿åº¦
+	* pointRow ä»£è¡¨é€šè·¯ä¸ªæ•°çš„ç‚¹æ‰€åœ¨çŸ©é˜µçš„æ¨ªåæ ‡
+	* pointLine ä»£è¡¨é€šè·¯ä¸ªæ•°çš„ç‚¹æ‰€åœ¨çŸ©é˜µçš„çºµåæ ‡
+	* pointLoop ä»£è¡¨é€šè·¯ä¸ªæ•°çš„ç‚¹æ‰€åœ¨çŸ©é˜µçš„æ¨ªåæ ‡ç­‰äºçºµåæ ‡
 	*/
 	int order = 1;
 	int length = 0;
@@ -355,7 +322,7 @@ int main(int argc, char** argv[], char** env[])
 	int pointLine = 1;
 	int pointLoop = 1;
 
-	// ÊäÈë¾ØÕó½×ÊıºÍ³¤¶ÈÒÔ¼°Í¨Â·¡¢»ØÂ·µÄµãµÄ×ø±ê
+	// è¾“å…¥çŸ©é˜µé˜¶æ•°å’Œé•¿åº¦ä»¥åŠé€šè·¯ã€å›è·¯çš„ç‚¹çš„åæ ‡
 	std::cout << "Please input order of matrix: ";
 	std::cin >> order;
 	std::cout << "Please input length or distance of matrix: ";
@@ -367,10 +334,19 @@ int main(int argc, char** argv[], char** env[])
 	std::cout << "Please input pointLoop: ";
 	std::cin >> pointLoop;
 
-	// ³õÊ¼»¯ÊäÈë¾ØÕó
-	int** matrixArray = inputMatrixArray(order);
+	int lengthSize = 5;
+	int* setLength = (int*)malloc(lengthSize * sizeof(int));
 
-	// ¼õÉÙ¿ÕÖ¸ÕëÒì³£
+	for (int i = 0; i < lengthSize; i++)
+	{
+		std::cout << "Please input length: " << i << std::endl;
+		std::cin >> setLength[i];
+	}
+
+	// åˆå§‹åŒ–è¾“å…¥çŸ©é˜µ
+	int** matrixArray = inputMatrix(order);
+
+	// å‡å°‘ç©ºæŒ‡é’ˆå¼‚å¸¸
 	if (order < 1 || length < 0 || pointRow < 1 || pointLine < 1 || pointLoop < 1)
 	{
 		std::cout << "\nError Input ! \n" << std::endl;
@@ -379,26 +355,43 @@ int main(int argc, char** argv[], char** env[])
 
 	// --------------------------------------------------- Test Output -----------------------------------------------------
 	int controls = 0;
-	std::cout << "Please input control (1 or 2) : ";
+	std::cout << "Please input control (1 or 2 or 3) : ";
 	std::cin >> controls;
 
 	switch (controls)
 	{
 	case 1:
-		// Çólength³¤¶ÈµÄ¾ØÕó
-		matrixArray = mulResultMatrix(matrixArray, order, length);
+		// æ±‚lengthé•¿åº¦çš„çŸ©é˜µ
+		matrixArray = matrixResultMUL(matrixArray, order, length);
 		break;
 	case 2:
-		std::cout << "The sum of access of length in range point to point is : " << countRangePointToPointAccessMatrix(matrixArray, order, length, pointRow, pointLine) << std::endl;
-		std::cout << "The sum of loop of length in range point self is : " << countRangePointToPointLoopMatrix(matrixArray, order, length, pointLoop) << std::endl;
+		std::cout << "The sum of access of length in range point to point is : " << countRangeLengthAccess(matrixArray, order, length, pointRow, pointLine) << std::endl;
+		std::cout << "The sum of loop of length in range point self is : " << countRangeLengthLoop(matrixArray, order, length, pointLoop) << std::endl;
 		break;
 	case 3:
+
+		setLength = getMultiLengthAccess(matrixArray, order, setLength, lengthSize, pointRow, pointLine);
+		for (int i = 0; i < lengthSize; i++)
+		{
+			std::cout << "ç”¨æˆ·è‡ªå®šä¹‰çš„é€šè·¯æ‰€å¾—åˆ°çš„ç»“æœä¸º" << i << " : " << setLength[i] << std::endl;
+		}
+
+		free(setLength);
 		break;
 	case 4:
+
 		break;
 	default:
 		break;
 	}
 
+	for (int i = 0; i < order; i++)
+	{
+		for (int j = 0; j < order; j++)
+		{
+			std::cout << matrixArray[i][j] << " ";
+		}
+		std::cout << std::endl;
+	}
 	return 0;
 }
