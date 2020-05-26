@@ -107,17 +107,33 @@ int getCountPointRangeLength(int** matrixArray, int matrixSize, int maxLength, i
 }
 
 
-int getAllPointRangeLength_HaveLoop(int** matrixArray, int matrixSize, int maxLength, int pointRow, int pointLine)
+int getAllPointRangeLengthAccess_HaveLoop(int** matrixArray, int matrixSize, int maxLength)
 {
     int sumRangeLengthArray = 0;
+    int pointRowAny = 1;
+    int pointLineAny = 1;
+
     // TODO: 在此处添加实现代码.
     return sumRangeLengthArray;
 }
 
 
-int getAllPointRangeLength_NotLoop(int** matrixArray, int matrixSize, int maxLength, int pointRowAny, int pointLineAny)
+int getAllPointRangeLengthAccess_NotLoop(int** matrixArray, int matrixSize, int maxLength)
 {
     int sumRangeLengthArray = 0;
+    int pointRowAny = 1;
+    int pointLineAny = 1;
+
+    // TODO: 在此处添加实现代码.
+    return sumRangeLengthArray;
+}
+
+
+int getAllPointRangeLengthLoop(int** matrixArray, int matrixSize, int maxLength)
+{
+    int sumRangeLengthArray = 0;
+    int pointLoopAny = 1;
+
     // TODO: 在此处添加实现代码.
     return sumRangeLengthArray;
 }
@@ -260,9 +276,11 @@ int main(int argc, char** argv[], char** env[])
     }
     setMatrixArray(matrixArray, matrixSize);
 
-    // ---------------------------------------- Test:求距离为3的矩阵 ---------------------------------------- //
-    multiplicineMatrixResult(matrixArray, matrixSize, 3);
+    // ---------------------------------------- Test:求长度为3的矩阵 ---------------------------------------- //
+    //multiplicineMatrixResult(matrixArray, matrixSize, 3);
 
+    // ---------------------------------------- Test:求长度范围为0-3，点(1,4)的通路之和 ---------------------------------------- //
+    std::cout << getCountPointRangeLength(matrixArray, matrixSize, 3, 1, 4) << std::endl;
 
     // ------------------------------------------------------------------------------------------------------ //
     // -------------------------------------------- TEST OUT ------------------------------------------------ //

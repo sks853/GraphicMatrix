@@ -44,11 +44,9 @@ int getCountPointRangeLength(int** matrixArray, int matrixSize, int maxLength, i
 * @param **matrixArray 调用方矩阵指针
 * @param matrixSize 矩阵尺度
 * @param maxLength 最大距离长度
-* @param pointRowAny 任意点横坐标
-* @param pointLineAny 任意点纵坐标
 * @return sumRangeLengthArray 某长度内所有点即通路和回路之和
 */
-int getAllPointRangeLength_HaveLoop(int** matrixArray, int matrixSize, int maxLength, int pointRowAny, int pointLineAny);
+int getAllPointRangeLengthAccess_HaveLoop(int** matrixArray, int matrixSize, int maxLength);
 
 
 
@@ -57,11 +55,20 @@ int getAllPointRangeLength_HaveLoop(int** matrixArray, int matrixSize, int maxLe
 * @param **matrixArray 调用方矩阵指针
 * @param matrixSize 矩阵尺度
 * @param maxLength 最大距离长度
-* @param pointRowAny 任意点横坐标
-* @param pointLineAny 任意点纵坐标
 * @return sumRangeLengthArray 某长度内所有通路之和（不包括回路）
 */
-int getAllPointRangeLength_NotLoop(int** matrixArray, int matrixSize, int maxLength, int pointRowAny, int pointLineAny);
+int getAllPointRangeLengthAccess_NotLoop(int** matrixArray, int matrixSize, int maxLength);
+
+
+
+/*
+* @description 求某长度内所有回路之和
+* @param **matrixArray 调用方矩阵指针
+* @param matrixSize 矩阵尺度
+* @param maxLength 最大距离长度
+* @return sumRangeLengthArray 某长度内所有回路之和
+*/
+int getAllPointRangeLengthLoop(int** matrixArray, int matrixSize, int maxLength);
 
 
 
