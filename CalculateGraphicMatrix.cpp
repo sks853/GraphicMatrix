@@ -16,6 +16,7 @@
 
 
 /************************************* 已验证 ****************************************/
+
 int getPointSetLength(int** matrixArray, int matrixSize, int setLength, int pointRow, int pointLine)
 {
 	int pointValue = 0;
@@ -48,6 +49,7 @@ int getPointSetLength(int** matrixArray, int matrixSize, int setLength, int poin
 
 
 /************************************* 已验证 ****************************************/
+
 void getArrayCustomMultiLength(int** matrixArray, int matrixSize, int* customLengthArray, int customLengthSize, int pointRow, int pointLine, int* acceptResultArray)
 {
 	int** calculateTemporMatrixArray = (int**)malloc(matrixSize * sizeof(int*));
@@ -96,6 +98,7 @@ void getArrayCustomMultiLength(int** matrixArray, int matrixSize, int* customLen
 
 
 /************************************* 已验证 ****************************************/
+
 int getCountPointRangeLength(int** matrixArray, int matrixSize, int maxLength, int pointRow, int pointLine)
 {
 	int sumRangeLengthArray = 0;
@@ -128,42 +131,163 @@ int getCountPointRangeLength(int** matrixArray, int matrixSize, int maxLength, i
 }
 
 
-/************************************* 待设计 ****************************************/
+/************************************* 已验证 ****************************************/
+
 int getAllPointRangeLengthAccess_HaveLoop(int** matrixArray, int matrixSize, int maxLength)
 {
 	int sumRangeLengthArray = 0;
-	int pointRowAny = 1;
-	int pointLineAny = 1;
+	int** calculateTemporMatrixArray = (int**)malloc(matrixSize * sizeof(int*));
+	for (int i = 0; i < matrixSize; i++)
+	{
+		calculateTemporMatrixArray[i] = (int*)malloc(matrixSize * sizeof(int));
+	}
+	for (int i = 0; i < matrixSize; i++)
+	{
+		for (int j = 0; j < matrixSize; j++)
+		{
+			calculateTemporMatrixArray[i][j] = matrixArray[i][j];
+		}
+	}
 
-	// TODO: 在此处添加实现代码.
-	return sumRangeLengthArray;
-}
+	for (int m = 0; m < matrixSize; m++)
+	{
+		for (int n = 0; n < matrixSize; n++)
+		{
+			sumRangeLengthArray = sumRangeLengthArray + calculateTemporMatrixArray[m][n];
+		}
+	}
+	for (int i = 1; i < maxLength; i++)
+	{
+		multiplicineMatrixCalculate(matrixArray, calculateTemporMatrixArray, matrixSize, calculateTemporMatrixArray);
+		for (int m = 0; m < matrixSize; m++)
+		{
+			for (int n = 0; n < matrixSize; n++)
+			{
+				sumRangeLengthArray = sumRangeLengthArray + calculateTemporMatrixArray[m][n];
+			}
+		}
+	}
 
+	for (int i = 0; i < matrixSize; i++)
+	{
+		free(calculateTemporMatrixArray[i]);
+	}
+	free(calculateTemporMatrixArray);
 
-/************************************* 待设计 ****************************************/
-int getAllPointRangeLengthAccess_NotLoop(int** matrixArray, int matrixSize, int maxLength)
-{
-	int sumRangeLengthArray = 0;
-	int pointRowAny = 1;
-	int pointLineAny = 1;
-
-	// TODO: 在此处添加实现代码.
-	return sumRangeLengthArray;
-}
-
-
-/************************************* 待设计 ****************************************/
-int getAllPointRangeLengthLoop(int** matrixArray, int matrixSize, int maxLength)
-{
-	int sumRangeLengthArray = 0;
-	int pointLoopAny = 1;
-
-	// TODO: 在此处添加实现代码.
 	return sumRangeLengthArray;
 }
 
 
 /************************************* 已验证 ****************************************/
+
+int getAllPointRangeLengthAccess_NotLoop(int** matrixArray, int matrixSize, int maxLength)
+{
+	int sumRangeLengthArray = 0;
+	int** calculateTemporMatrixArray = (int**)malloc(matrixSize * sizeof(int*));
+	for (int i = 0; i < matrixSize; i++)
+	{
+		calculateTemporMatrixArray[i] = (int*)malloc(matrixSize * sizeof(int));
+	}
+	for (int i = 0; i < matrixSize; i++)
+	{
+		for (int j = 0; j < matrixSize; j++)
+		{
+			calculateTemporMatrixArray[i][j] = matrixArray[i][j];
+		}
+	}
+
+	for (int m = 0; m < matrixSize; m++)
+	{
+		for (int n = 0; n < matrixSize; n++)
+		{
+			if (n != m)
+			{
+				sumRangeLengthArray = sumRangeLengthArray + calculateTemporMatrixArray[m][n];
+			}
+		}
+	}
+	for (int i = 1; i < maxLength; i++)
+	{
+		multiplicineMatrixCalculate(matrixArray, calculateTemporMatrixArray, matrixSize, calculateTemporMatrixArray);
+		for (int m = 0; m < matrixSize; m++)
+		{
+			for (int n = 0; n < matrixSize; n++)
+			{
+				if (n != m)
+				{
+					sumRangeLengthArray = sumRangeLengthArray + calculateTemporMatrixArray[m][n];
+				}
+				
+			}
+		}
+	}
+
+	for (int i = 0; i < matrixSize; i++)
+	{
+		free(calculateTemporMatrixArray[i]);
+	}
+	free(calculateTemporMatrixArray);
+
+	return sumRangeLengthArray;
+}
+
+
+/************************************* 待设计 ****************************************/
+
+int getAllPointRangeLengthLoop(int** matrixArray, int matrixSize, int maxLength)
+{
+	int sumRangeLengthArray = 0;
+	int** calculateTemporMatrixArray = (int**)malloc(matrixSize * sizeof(int*));
+	for (int i = 0; i < matrixSize; i++)
+	{
+		calculateTemporMatrixArray[i] = (int*)malloc(matrixSize * sizeof(int));
+	}
+	for (int i = 0; i < matrixSize; i++)
+	{
+		for (int j = 0; j < matrixSize; j++)
+		{
+			calculateTemporMatrixArray[i][j] = matrixArray[i][j];
+		}
+	}
+
+	for (int m = 0; m < matrixSize; m++)
+	{
+		for (int n = 0; n < matrixSize; n++)
+		{
+			if (n == m)
+			{
+				sumRangeLengthArray = sumRangeLengthArray + calculateTemporMatrixArray[m][n];
+			}
+		}
+	}
+	for (int i = 1; i < maxLength; i++)
+	{
+		multiplicineMatrixCalculate(matrixArray, calculateTemporMatrixArray, matrixSize, calculateTemporMatrixArray);
+		for (int m = 0; m < matrixSize; m++)
+		{
+			for (int n = 0; n < matrixSize; n++)
+			{
+				if (n == m)
+				{
+					sumRangeLengthArray = sumRangeLengthArray + calculateTemporMatrixArray[m][n];
+				}
+
+			}
+		}
+	}
+
+	for (int i = 0; i < matrixSize; i++)
+	{
+		free(calculateTemporMatrixArray[i]);
+	}
+	free(calculateTemporMatrixArray);
+
+	return sumRangeLengthArray;
+}
+
+
+/************************************* 已验证 ****************************************/
+
 void setMatrixArray(int** matrixArray, int matrixSize)
 {
 	std::cout << "Please input matrix: (Space off) " << std::endl;
@@ -178,6 +302,7 @@ void setMatrixArray(int** matrixArray, int matrixSize)
 
 
 /************************************* 已验证 ****************************************/
+
 void multiplicineMatrixCalculate(int** aheadMatrixArray, int** afterMatrixArray, int matrixSize, int** acceptCalculateMatrix)
 {
 	// 前行×后列之和
@@ -222,6 +347,7 @@ void multiplicineMatrixCalculate(int** aheadMatrixArray, int** afterMatrixArray,
 
 
 /************************************* 已验证 ****************************************/
+
 void multiplicineMatrixResult(int** matrixArray, int matrixSize, int setLength)
 {
 	int** calculatedMatrix = (int**)malloc(matrixSize * sizeof(int*));
@@ -309,23 +435,13 @@ int main(int argc, char** argv[], char** env[])
 	//}
 	//free(acceptArray);
 
-	// ------------------------------------------------------------------------------------------------------ //
-	// -------------------------------------------- TEST OUT ------------------------------------------------ //
-	// ------------------------------------------------------------------------------------------------------ //
-	// 
-	std::cout << "\n======================= Test Out =======================\n" << std::endl;
-	for (int i = 0; i < matrixSize; i++)
-	{
-		for (int j = 0; j < matrixSize; j++)
-		{
-			std::cout << matrixArray[i][j] << " ";
-		}
-		std::cout << std::endl;
-	}
-	// 
-	// ------------------------------------------------------------------------------------------------------ //
-	// -------------------------------------------- TEST OUT ------------------------------------------------ //
-	// ------------------------------------------------------------------------------------------------------ //
+	// ---------------------------------------- Test:求长度内所有通路或回路（包括或不包括回路） ---------------------------------------- //
+	std::cout << "Access of Include Loop: " << getAllPointRangeLengthAccess_HaveLoop(matrixArray, matrixSize, 5) << std::endl;
+
+	std::cout << "Access of Not Include Loop: " << getAllPointRangeLengthAccess_NotLoop(matrixArray, matrixSize, 5) << std::endl;
+	
+	std::cout << "All of Loop : " << getAllPointRangeLengthLoop(matrixArray, matrixSize, 5) << std::endl;
+
 
 	for (int i = 0; i < matrixSize; i++)
 	{
