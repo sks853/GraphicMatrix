@@ -428,9 +428,6 @@ void getReachableMatrix(int** matrixArray, int matrixSize, int** reachableMatrix
 			{
 				temporMatrix[i][j] = 1;
 			}
-			{
-
-			}
 		}
 	}
 
@@ -496,30 +493,31 @@ int main(int argc, char** argv[], char** env[])
 	//multiplicineMatrixResult(matrixArray, matrixSize, 2);
 
 	// ---------------------------------------- Test:求长度范围为0-3，点(1,4)的通路之和 ---------------------------------------- //
-	//std::cout << getCountPointRangeLength(matrixArray, matrixSize, 3, 1, 4) << std::endl;
+	std::cout << getCountPointRangeLength(matrixArray, matrixSize, 3, 1, 4) << std::endl;
 
 	// ---------------------------------------- Test:求长度为3的通路（即某点的值） ---------------------------------------- //
-	//std::cout << getPointSetLength(matrixArray, matrixSize, 3, 1, 4) << std::endl;
+	std::cout << getPointSetLength(matrixArray, matrixSize, 3, 1, 4) << std::endl;
 
 	// ---------------------------------------- Test:求自定义的多个长度的通路或回路 ---------------------------------------- //
-	//int testLengthSize = 4;
-	//int testLength[4] = { 1,2,3,4 };
-	//int* acceptArray = (int*)malloc(testLengthSize * sizeof(int));	
-	//getArrayCustomMultiLength(matrixArray, matrixSize, testLength, testLengthSize, 1, 1, acceptArray);
-	//for (int i = 0; i < testLengthSize; i++)
-	//{
-	//	std::cout << i << ":" << acceptArray[i] << std::endl;;
-	//}
-	//free(acceptArray);
+	int testLengthSize = 4;
+	int testLength[4] = { 1,2,3,4 };
+	int* acceptArray = (int*)malloc(testLengthSize * sizeof(int));	
+	getArrayCustomMultiLength(matrixArray, matrixSize, testLength, testLengthSize, 1, 1, acceptArray);
+	for (int i = 0; i < testLengthSize; i++)
+	{
+		std::cout << i << ":" << acceptArray[i] << std::endl;;
+	}
+	free(acceptArray);
 
 	// ---------------------------------------- Test:求长度内所有通路或回路（包括或不包括回路） ---------------------------------------- //
-	//std::cout << "Access of Include Loop: " << getAllPointRangeLengthAccess_HaveLoop(matrixArray, matrixSize, 5) << std::endl;
+	std::cout << "Access of Include Loop: " << getAllPointRangeLengthAccess_HaveLoop(matrixArray, matrixSize, 5) << std::endl;
 
-	//std::cout << "Access of Not Include Loop: " << getAllPointRangeLengthAccess_NotLoop(matrixArray, matrixSize, 5) << std::endl;
+	std::cout << "Access of Not Include Loop: " << getAllPointRangeLengthAccess_NotLoop(matrixArray, matrixSize, 5) << std::endl;
 	
-	//std::cout << "All of Loop : " << getAllPointRangeLengthLoop(matrixArray, matrixSize, 5) << std::endl;
+	std::cout << "All of Loop : " << getAllPointRangeLengthLoop(matrixArray, matrixSize, 5) << std::endl;
 
 	// ---------------------------------------- Test:求某个矩阵的可达矩阵 ---------------------------------------- //
+	std::cout << std::endl;
 	int** testResultMatrix = (int**)malloc(matrixSize * sizeof(int*));
 	for (int i = 0; i < matrixSize; i++)
 	{
