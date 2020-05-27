@@ -232,7 +232,7 @@ int getAllPointRangeLengthAccess_NotLoop(int** matrixArray, int matrixSize, int 
 }
 
 
-/************************************* 待设计 ****************************************/
+/************************************* 已验证 ****************************************/
 
 int getAllPointRangeLengthLoop(int** matrixArray, int matrixSize, int maxLength)
 {
@@ -384,7 +384,7 @@ void multiplicineMatrixResult(int** matrixArray, int matrixSize, int setLength)
 }
 
 
-/************************************* 待验证 ****************************************/
+/************************************* 已验证 ****************************************/
 
 void getReachableMatrix(int** matrixArray, int matrixSize, int** reachableMatrix)
 {
