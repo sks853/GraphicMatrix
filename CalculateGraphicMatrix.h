@@ -114,3 +114,11 @@ void multiplicineMatrixCalculate(int** aheadMatrixArray, int** afterMatrixArray,
 void multiplicineMatrixResult(int** matrixArray, int matrixSize, int setLength);
 
 
+
+/*
+* @description 根据有向图、无向图计算可达矩阵
+* @param **matrixArray 初始普通矩阵
+* @param matrixSize 矩阵尺度
+* @param reachableMatrix 调用方接收的可达矩阵指针
+*/
+void getReachableMatrix(int** matrixArray, int matrixSize, int** reachableMatrix);

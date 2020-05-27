@@ -383,6 +383,74 @@ void multiplicineMatrixResult(int** matrixArray, int matrixSize, int setLength)
 	free(calculatedMatrix);
 }
 
+
+/************************************* 待验证 ****************************************/
+
+void getReachableMatrix(int** matrixArray, int matrixSize, int** reachableMatrix)
+{
+	int** calculatedMatrix = (int**)malloc(matrixSize * sizeof(int*));
+	int** temporMatrix = (int**)malloc(matrixSize * sizeof(int*));
+	for (int i = 0; i < matrixSize; i++)
+	{
+		calculatedMatrix[i] = (int*)malloc(matrixSize * sizeof(int));
+		temporMatrix[i] = (int*)malloc(matrixSize * sizeof(int));
+	}
+	for (int i = 0; i < matrixSize; i++)
+	{
+		for (int j = 0; j < matrixSize; j++)
+		{
+			calculatedMatrix[i][j] = matrixArray[i][j];
+			temporMatrix[i][j] = matrixArray[i][j];
+		}
+	}
+
+	for (int i = 1; i < matrixSize - 1; i++)
+	{
+		multiplicineMatrixCalculate(matrixArray, calculatedMatrix, matrixSize, calculatedMatrix);
+		for (int m = 0; m < matrixSize; m++)
+		{
+			for (int n = 0; n < matrixSize; n++)
+			{
+				temporMatrix[m][n] = temporMatrix[m][n] + calculatedMatrix[m][n];
+			}
+		}
+	}
+
+	for (int i = 0; i < matrixSize; i++)
+	{
+		for (int j = 0; j < matrixSize; j++)
+		{
+			if (j == i)
+			{
+				temporMatrix[i][j] = 1;
+			}
+			else if (temporMatrix[i][j] != 0)
+			{
+				temporMatrix[i][j] = 1;
+			}
+			{
+
+			}
+		}
+	}
+
+	for (int i = 0; i < matrixSize; i++)
+	{
+		for (int j = 0; j < matrixSize; j++)
+		{
+			reachableMatrix[i][j] = temporMatrix[i][j];
+		}
+	}
+
+	for (int i = 0; i < matrixSize; i++)
+	{
+		free(temporMatrix[i]);
+		free(calculatedMatrix[i]);
+	}
+	free(temporMatrix);
+	free(calculatedMatrix);
+}
+
 /********
 0 0 0 0 1
 1 0 1 1 0
@@ -392,8 +460,17 @@ void multiplicineMatrixResult(int** matrixArray, int matrixSize, int setLength)
 ********/
 
 /*
-				a     b     c     d     e
+  a b c d e f
+a 0 1 0 0 0 0
+b 1 1 1 0 0 0
+c 0 1 0 2 0 0
+d 0 0 2 0 1 0
+e 0 0 0 1 0 0
+f 0 0 0 0 0 0
+*/
 
+/*
+				a     b     c     d     e
 		  a   (1,1) (1,2) (1,3) (1,4) (1,5)
 		  b   (2,1) (2,2) (2,3) (2,4) (2,5)
 		  c   (3,1) (3,2) (3,3) (3,4) (3,5)
@@ -428,7 +505,7 @@ int main(int argc, char** argv[], char** env[])
 	//int testLengthSize = 4;
 	//int testLength[4] = { 1,2,3,4 };
 	//int* acceptArray = (int*)malloc(testLengthSize * sizeof(int));	
-	//getArrayCustomMultiLength(matrixArray, matrixSize, testLength, testLengthSize, 1, 3, acceptArray);
+	//getArrayCustomMultiLength(matrixArray, matrixSize, testLength, testLengthSize, 1, 1, acceptArray);
 	//for (int i = 0; i < testLengthSize; i++)
 	//{
 	//	std::cout << i << ":" << acceptArray[i] << std::endl;;
@@ -436,13 +513,34 @@ int main(int argc, char** argv[], char** env[])
 	//free(acceptArray);
 
 	// ---------------------------------------- Test:求长度内所有通路或回路（包括或不包括回路） ---------------------------------------- //
-	std::cout << "Access of Include Loop: " << getAllPointRangeLengthAccess_HaveLoop(matrixArray, matrixSize, 5) << std::endl;
+	//std::cout << "Access of Include Loop: " << getAllPointRangeLengthAccess_HaveLoop(matrixArray, matrixSize, 5) << std::endl;
 
-	std::cout << "Access of Not Include Loop: " << getAllPointRangeLengthAccess_NotLoop(matrixArray, matrixSize, 5) << std::endl;
+	//std::cout << "Access of Not Include Loop: " << getAllPointRangeLengthAccess_NotLoop(matrixArray, matrixSize, 5) << std::endl;
 	
-	std::cout << "All of Loop : " << getAllPointRangeLengthLoop(matrixArray, matrixSize, 5) << std::endl;
+	//std::cout << "All of Loop : " << getAllPointRangeLengthLoop(matrixArray, matrixSize, 5) << std::endl;
 
+	// ---------------------------------------- Test:求某个矩阵的可达矩阵 ---------------------------------------- //
+	int** testResultMatrix = (int**)malloc(matrixSize * sizeof(int*));
+	for (int i = 0; i < matrixSize; i++)
+	{
+		testResultMatrix[i] = (int*)malloc(matrixSize * sizeof(int));
+	}
+	getReachableMatrix(matrixArray, matrixSize, testResultMatrix);
+	for (int i = 0; i < matrixSize; i++)
+	{
+		for (int j = 0; j < matrixSize; j++)
+		{
+			std::cout << testResultMatrix[i][j] << " ";
+		}
+		printf("\n");
+	}
+	for (int i = 0; i < matrixSize; i++)
+	{
+		free(testResultMatrix[i]);
+	}
+	free(testResultMatrix);
 
+	// ----------------------------- Free ----------------------------- //
 	for (int i = 0; i < matrixSize; i++)
 	{
 		free(matrixArray[i]);
